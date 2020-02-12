@@ -5,6 +5,7 @@ pipeline {
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
+namespace: sybrenbolandit
 kind: Pod
 spec:
   containers:
