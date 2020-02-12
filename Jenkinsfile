@@ -39,16 +39,7 @@ spec:
         container('docker') {
           // Build new image
           sh "until docker ps; do sleep 3; done && docker build -t atul7cloudyuga/argocd-demo:${env.GIT_COMMIT} ."
-          // Publish new image
-       //   def repository = "atul7cloudyuga/java-spring-api"
-
-          //      withCredentials([usernamePassword(credentialsId: 'dockerhub',
-                 //       usernameVariable: 'registryUser', passwordVariable: 'registryPassword')]) {
-
-                  //  sh "docker login -u=$registryUser -p=$registryPassword"
-                 //   sh "docker build -t ${repository}:${env.GIT_COMMIT} ."
-                //    sh "docker push ${repository}:${env.GIT_COMMIT}"
-            sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
+        
         }
       }
     }
@@ -70,16 +61,7 @@ spec:
       }
     }
 
-    stage('Deploy to Prod') {
-      steps {
-        input message:'Approve deployment?'
-        container('tools') {
-          dir("argocd-demo-deploy") {
-            sh "cd ./prod && kustomize edit set image atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
-            sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
-          }
-        }
-      }
+  
     }
   }
 }
