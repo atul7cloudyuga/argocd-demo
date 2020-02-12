@@ -10,9 +10,6 @@ spec:
   containers:
   - name: tools
     image: nginx
-    command:
-    - cat
-    tty: true
 """
     }
   }
