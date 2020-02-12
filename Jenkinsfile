@@ -6,6 +6,7 @@ pipeline {
       yaml """
 apiVersion: v1
 kind: Pod
+namespace: sybrenbolandit
 spec:
   containers:
   - name: dind
