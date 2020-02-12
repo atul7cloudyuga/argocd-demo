@@ -39,7 +39,15 @@ spec:
           // Build new image
           sh "until docker ps; do sleep 3; done && docker build -t atul7cloudyuga/argocd-demo:${env.GIT_COMMIT} ."
           // Publish new image
-          sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
+          def repository = "atul7cloudyuga/java-spring-api"
+
+                withCredentials([usernamePassword(credentialsId: 'dockerhub',
+                        usernameVariable: 'registryUser', passwordVariable: 'registryPassword')]) {
+
+                    sh "docker login -u=$registryUser -p=$registryPassword"
+                    sh "docker build -t ${repository}:${env.GIT_COMMIT} ."
+                    sh "docker push ${repository}:${env.GIT_COMMIT}"
+          //sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
         }
       }
     }
@@ -51,7 +59,7 @@ spec:
       steps {
         container('tools') {
           sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/atul7cloudyuga/argocd-demo-deploy.git"
-          sh "git config --global user.email 'ci@ci.com'"
+          sh "git config --global user.email 'atul@ccloudyuga.guru'"
 
           dir("argocd-demo-deploy") {
             sh "cd ./e2e && kustomize edit set image atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
