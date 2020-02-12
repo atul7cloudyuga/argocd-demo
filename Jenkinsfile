@@ -47,11 +47,11 @@ spec:
                     sh "docker login -u=$registryUser -p=$registryPassword"
                     sh "docker build -t ${repository}:${env.GIT_COMMIT} ."
                     sh "docker push ${repository}:${env.GIT_COMMIT}"
-          //sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
+                }//sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push atul7cloudyuga/argocd-demo:${env.GIT_COMMIT}"
         }
       }
     }
-
+    
     stage('Deploy E2E') {
       environment {
         GIT_CREDS = credentials('git')
