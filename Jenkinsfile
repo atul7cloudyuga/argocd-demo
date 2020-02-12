@@ -7,6 +7,9 @@ pipeline {
 apiVersion: v1
 namespace: sybrenbolandit
 kind: Pod
+metadata:
+  labels:
+    app: myapp
 spec:
   containers:
   - name: tools
