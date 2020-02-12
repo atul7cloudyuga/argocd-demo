@@ -1,12 +1,11 @@
 pipeline {
   agent {
     kubernetes {
-      label 'master'
+      label 'jenkins-slave'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
 kind: Pod
-namespace: sybrenbolandit
 spec:
   containers:
   - name: dind
@@ -38,14 +37,15 @@ spec:
       steps {
         container('docker') {
           // Build new image
-          sh "until docker ps; do sleep 3; done && docker build -t atul7cloudyuga/argocd-demo:${env.GIT_COMMIT} ."
-        
+          sh "until docker ps; do sleep 3; done && docker build -t alexmt/argocd-demo:${env.GIT_COMMIT} ."
+          // Publish new image
+          sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push alexmt/argocd-demo:${env.GIT_COMMIT}"
         }
       }
     }
+
+   
+
     
-    
-  
-    }
   }
 }
