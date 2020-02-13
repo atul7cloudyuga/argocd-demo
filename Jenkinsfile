@@ -46,7 +46,7 @@ spec:
 
     stage('Deploy E2E') {
       environment {
-        GIT_CREDS = credentials('git')
+        GIT_CREDS = credentials('github')
       }
       steps {
         container('tools') {
