@@ -5,15 +5,26 @@ pipeline {
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
-namespace: sybrenbolandit
 kind: Pod
-metadata:
-  labels:
-    app: myapp
 spec:
   containers:
+  - name: dind
+    image: docker:18.09-dind
+    securityContext:
+      privileged: true
+  - name: docker
+    env:
+    - name: DOCKER_HOST
+      value: 127.0.0.1
+    image: docker:18.09
+    command:
+    - cat
+    tty: true
   - name: tools
-    image: nginx
+    image: argoproj/argo-cd-ci-builder:v0.13.1
+    command:
+    - cat
+    tty: true
 """
     }
   }
