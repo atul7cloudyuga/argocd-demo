@@ -12,7 +12,7 @@ process.exit(1);
 const server = http.createServer((_, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, Jenkins World CloudYuga ARGODEMO!\n');
+  res.end('Hello, Jenkins World CloudYuga ARGODEMO-new!\n');
 });
 
 
